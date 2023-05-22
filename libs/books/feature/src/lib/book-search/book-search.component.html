@@ -15,7 +15,7 @@
 
 <ng-container *ngIf="searchTerm; else empty">
   <div class="book-grid">
-    <div class="book" data-testing="book-item" *ngFor="let b of books$ | async">
+    <div class="book" [attr.data-testing]="'book-item-'+index" *ngFor="let b of books$ | async; let index = index">
       <div class="book--title">
         {{ b.title }}
       </div>
@@ -30,10 +30,11 @@
             <strong>Published:</strong> {{ formatDate(b.publishedDate) }}
           </div>
           <p [innerHTML]="b.description"></p>
-          <div>
+          <div class="book-action">
             <button
               aria-label="Read Book"
               mat-flat-button
+              [attr.data-cy-add-book]="'add-book-'+index"
               color="primary"
               (click)="addBookToReadingList(b)"
               [disabled]="b.isAdded"
