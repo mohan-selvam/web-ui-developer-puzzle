@@ -5,7 +5,7 @@ import {
   reducer,
   State
 } from './reading-list.reducer';
-import { createBook, createReadingListItem } from '@tmo/shared/testing';
+import { createBook, createFinishReadingListItem, createReadingListItem } from '@tmo/shared/testing';
 
 describe('Books Reducer', () => {
   describe('valid Books actions', () => {
@@ -51,6 +51,17 @@ describe('Books Reducer', () => {
 
       expect(result.ids).toEqual(['A', 'B']);
     });
+
+    it('failedFinishFromReadingList should finish book to the state', () => {
+      const action = ReadingListActions.failedFinishFromReadingList({
+        item: createFinishReadingListItem('A')
+      });
+
+      const result: State = reducer(state, action);
+
+      expect(result.ids).toEqual(['A','B']);
+    });
+
   });
 
   describe('unknown action', () => {

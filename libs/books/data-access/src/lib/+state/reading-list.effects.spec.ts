@@ -4,7 +4,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { HttpTestingController } from '@angular/common/http/testing';
 
-import { SharedTestingModule } from '@tmo/shared/testing';
+import { SharedTestingModule, createFinishReadingListItem, createReadingListItem } from '@tmo/shared/testing';
 import { ReadingListEffects } from './reading-list.effects';
 import * as ReadingListActions from './reading-list.actions';
 
@@ -40,6 +40,22 @@ describe('ToReadEffects', () => {
       });
 
       httpMock.expectOne('/api/reading-list').flush([]);
+    });
+  });
+  describe('finishBook$', () => {
+    it('should work', done => {
+      actions = new ReplaySubject();
+      const item = createFinishReadingListItem('A')
+      actions.next(ReadingListActions.finishFromReadingList({item}));
+
+      effects.finishBook$.subscribe(action => {
+        expect(action).toEqual(
+          ReadingListActions.confirmedFinishFromReadingList({item})
+        );
+        done();
+      });
+
+      httpMock.expectOne(`/api/reading-list/${item.bookId}/finished`).flush([]);
     });
   });
 });
