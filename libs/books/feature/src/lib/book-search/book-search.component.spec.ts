@@ -24,4 +24,16 @@ describe('ProductsListComponent', () => {
   it('should create', () => {
     expect(component).toBeDefined();
   });
+
+  it('should emit change event emitter on change', () => {
+    fixture.whenStable().then(() => {
+      const el = fixture.debugElement.nativeElement.querySelector('#search-field');
+
+      el.value = 'test';
+      el.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+      expect(component.searchTerm).toBe('test');
+    })
+  });
+
 });
