@@ -54,9 +54,17 @@ form {
     padding-bottom: $spacing-lg;
 
     button {
-      position: absolute;
+      // position: absolute;
       bottom: 0;
       right: 0;
+    }
+  }
+  .book-action {
+    display: flex;
+    align-items: end;
+    justify-content: end;
+    > button:last-child {
+      margin-left: 10px;
     }
   }
 }
