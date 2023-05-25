@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { getReadingList, removeFromReadingList } from '@tmo/books/data-access';
+import { finishFromReadingList, getReadingList, removeFromReadingList } from '@tmo/books/data-access';
 import { ReadingListItem } from '@tmo/shared/models';
 
 @Component({
@@ -11,9 +11,21 @@ import { ReadingListItem } from '@tmo/shared/models';
 export class ReadingListComponent {
   readingList$ = this.store.select(getReadingList);
 
-  constructor(private readonly store: Store) {}
+  constructor(private readonly store: Store) { }
 
   removeFromReadingList(item: ReadingListItem): void {
     this.store.dispatch(removeFromReadingList({ item }));
   }
+
+  finishedFromReadingList(data: ReadingListItem): void {
+    const item = {...data, finished: true, finishedDate: new Date().toISOString() };
+    this.store.dispatch(finishFromReadingList({ item }));
+  }
+
+  formatDate(date: void | string): string {
+    return date
+      ? new Intl.DateTimeFormat('en-US').format(new Date(date))
+      : undefined;
+  }
+
 }

@@ -1,5 +1,5 @@
 <ng-container *ngIf="(readingList$ | async).length > 0; else empty">
-  <div class="reading-list-item" *ngFor="let b of readingList$ | async">
+  <div class="reading-list-item" [attr.data-cy-reading-list]="'reading-list-'+index" *ngFor="let b of readingList$ | async; let index = index">
     <div>
       <img class="reading-list-item--cover" [src]="b.coverUrl" />
     </div>
@@ -8,17 +8,35 @@
       <div class="reading-list-item--details--author">
         {{ b.authors.join(',') }}
       </div>
+      <div class="finished" *ngIf="b.finished">
+        <strong>Finished Date: {{formatDate(b.finishedDate)}}</strong> <br />
+        <strong class="icon"><mat-icon>check</mat-icon>Finished</strong>
+
+      </div>
     </div>
-    <div>
+    <div class="action">
       <button
       aria-label="Remove List"
         mat-icon-button
+        aria-label="Remove List"
         color="warn"
         [attr.aria-label]="'Remove ' + b.title + ' from reading list'"
         title="Remove"
         (click)="removeFromReadingList(b)"
       >
         <mat-icon>remove_circle</mat-icon>
+      </button>
+      <button
+        *ngIf="!b.finished"
+        mat-icon-button
+        aria-label="Finish List"
+        color="primary"
+        title="Finish"
+        [attr.data-cy-finish]="'finish-'+index"
+        [attr.aria-label]="'Finish ' + b.title + ' from reading list'"
+        (click)="finishedFromReadingList(b)"
+      >
+        <mat-icon>check_circle</mat-icon>
       </button>
     </div>
   </div>

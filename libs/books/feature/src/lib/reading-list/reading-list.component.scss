@@ -19,6 +19,9 @@
     flex-direction: column;
     justify-content: center;
   }
+  .action {
+    flex-direction: row;
+  }
 }
 
 .reading-list-item--cover {
@@ -31,6 +34,18 @@
   flex: 1;
   min-width: 0;
   margin-right: $spacing-xxs;
+  .finished {
+    .icon {
+      display: flex;
+      align-items: center;
+      color: $pink-accent;
+      .mat-icon {
+        width: 18px;
+        height: 18px;
+        font-size: 18px;
+      }
+    }
+  }
 }
 
 .reading-list-item--details--title,
